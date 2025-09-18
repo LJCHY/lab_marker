@@ -44,11 +44,11 @@ presentation_options = {
     "bad_structure": "The submitted file has a poorly/unstructured structure, e.g., no headings, blurring screenshots/pictures."
 }
 
-presentation_selection = st.multiselect(
-    "Select all applicable presentation issues:",
-    options=list(presentation_options.keys()),
-    format_func=lambda x: presentation_options[x]
-)
+st.write("Select all applicable presentation criteria:")
+presentation_selection = []
+for key, description in presentation_options.items():
+    if st.checkbox(description, key=f"pres_{key}"):
+        presentation_selection.append(key)
 
 # Calculate presentation grade
 def calculate_presentation_grade(selections):
@@ -165,26 +165,22 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
     with tab:
         st.subheader(f"{lab_name} - Description Evaluation")
         
-        # Overall description quality
-        desc_quality = st.radio(
-            f"{lab_name} - Overall Description Quality:",
-            ["Excellent", "Not Excellent"],
-            key=f"{lab_name}_desc_quality"
+        # Overall description quality - use checkbox instead of radio
+        desc_excellent = st.checkbox(
+            "The descriptions are sufficient and steps are clear with detailed descriptions.",
+            key=f"{lab_name}_desc_excellent"
         )
         
-        if desc_quality == "Excellent":
-            st.success("The descriptions are sufficient and steps are clear with detailed descriptions.")
-        
-        # Missing criteria selection
-        missing_criteria = st.multiselect(
-            f"Select missing/insufficient criteria for {lab_name}:",
-            options=lab_criteria[lab_name]["bad_criteria"],
-            key=f"{lab_name}_missing"
-        )
+        # Missing criteria selection - use individual checkboxes
+        st.write(f"Select missing/insufficient criteria for {lab_name}:")
+        missing_criteria = []
+        for criterion in lab_criteria[lab_name]["bad_criteria"]:
+            if st.checkbox(criterion, key=f"{lab_name}_{criterion}"):
+                missing_criteria.append(criterion)
         
         # Calculate grade for this lab
-        def calculate_lab_grade(desc_quality, missing_count, bad_threshold, lab_name):
-            if desc_quality == "Excellent" and missing_count == 0:
+        def calculate_lab_grade(desc_excellent, missing_count, bad_threshold, lab_name):
+            if desc_excellent and missing_count == 0:
                 return "Excellent"
             elif missing_count >= bad_threshold:
                 return "Bad"
@@ -197,7 +193,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         
         missing_count = len(missing_criteria)
         lab_grade = calculate_lab_grade(
-            desc_quality, 
+            desc_excellent, 
             missing_count, 
             lab_criteria[lab_name]["bad_threshold"],
             lab_name
@@ -205,7 +201,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         
         lab_grades[lab_name] = lab_grade
         lab_feedback[lab_name] = {
-            "quality": desc_quality,
+            "excellent": desc_excellent,
             "missing_criteria": missing_criteria,
             "missing_count": missing_count
         }
@@ -259,33 +255,73 @@ with col2:
 # Generate detailed feedback
 st.subheader("Generated Feedback")
 
+def generate_presentation_feedback(grade, selections):
+    if not selections:
+        return f"The presentation is {grade.lower()}."
+    
+    selected_descriptions = [presentation_options[sel] for sel in selections]
+    
+    if len(selected_descriptions) == 1:
+        return f"The presentation is {grade.lower()} because {selected_descriptions[0].lower()}"
+    elif len(selected_descriptions) == 2:
+        return f"The presentation is {grade.lower()} because {selected_descriptions[0].lower()} and {selected_descriptions[1].lower()}"
+    else:
+        descriptions_text = ", ".join(selected_descriptions[:-1]) + f", and {selected_descriptions[-1]}"
+        return f"The presentation is {grade.lower()} because {descriptions_text.lower()}"
+
+def generate_lab_feedback(lab_name, grade, lab_data):
+    if lab_data["excellent"] and not lab_data["missing_criteria"]:
+        return f"The description is {grade.lower()} because the descriptions are sufficient and steps are clear with detailed descriptions."
+    elif not lab_data["missing_criteria"]:
+        return f"The description is {grade.lower()}."
+    
+    missing_items = lab_data["missing_criteria"]
+    
+    if len(missing_items) == 1:
+        return f"The description is {grade.lower()} because {missing_items[0].lower()}."
+    elif len(missing_items) == 2:
+        return f"The description is {grade.lower()} because {missing_items[0].lower()} and {missing_items[1].lower()}."
+    else:
+        items_text = ", ".join(missing_items[:-1]) + f", and {missing_items[-1]}"
+        return f"The description is {grade.lower()} because {items_text.lower()}."
+
 feedback_text = f"**Student:** {student_name} ({student_id})\n"
 feedback_text += f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
 
 # Presentation feedback
 feedback_text += "**PRESENTATION EVALUATION:**\n"
-feedback_text += f"Grade: {presentation_grade}\n"
-if presentation_selection:
-    feedback_text += "Issues identified:\n"
-    for selection in presentation_selection:
-        feedback_text += f"• {presentation_options[selection]}\n"
-feedback_text += "\n"
+presentation_feedback = generate_presentation_feedback(presentation_grade, presentation_selection)
+feedback_text += presentation_feedback + "\n\n"
 
 # Lab feedback
 feedback_text += "**DESCRIPTION EVALUATION:**\n"
 for lab_name, grade in lab_grades.items():
-    feedback_text += f"\n{lab_name}: {grade}\n"
     lab_data = lab_feedback[lab_name]
-    
-    if lab_data["quality"] == "Excellent" and not lab_data["missing_criteria"]:
-        feedback_text += "• The descriptions are sufficient and steps are clear with detailed descriptions.\n"
-    else:
-        if lab_data["missing_criteria"]:
-            feedback_text += f"Missing/insufficient items ({lab_data['missing_count']}):\n"
-            for criterion in lab_data["missing_criteria"]:
-                feedback_text += f"  - {criterion}\n"
+    lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
+    feedback_text += f"\n{lab_name}: {lab_feedback_text}\n"
 
 st.text_area("Detailed Feedback", feedback_text, height=300)
+
+# Add individual copy buttons for each section
+col1, col2, col3 = st.columns(3)
+with col1:
+    presentation_feedback_only = generate_presentation_feedback(presentation_grade, presentation_selection)
+    if st.button("📋 Copy Presentation Feedback"):
+        st.code(presentation_feedback_only, language=None)
+
+with col2:
+    description_feedback_only = ""
+    for lab_name, grade in lab_grades.items():
+        lab_data = lab_feedback[lab_name]
+        lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
+        description_feedback_only += f"{lab_name}: {lab_feedback_text}\n"
+    
+    if st.button("📋 Copy Description Feedback"):
+        st.code(description_feedback_only, language=None)
+
+with col3:
+    if st.button("📋 Copy Complete Feedback"):
+        st.code(feedback_text, language=None)
 
 # Export options
 st.subheader("Export Options")
