@@ -22,7 +22,7 @@ st.header("Student Information")
 col1, col2 = st.columns(2)
 with col1:
     student_id = st.text_input("Student ID")
-with col2:
+with col1:
     student_name = st.text_input("Student Name")
 
 st.markdown("---")
@@ -71,6 +71,29 @@ def calculate_presentation_grade(selections):
 
 presentation_grade = calculate_presentation_grade(presentation_selection)
 st.subheader(f"Presentation Grade: **{presentation_grade}**")
+
+# Generate and display presentation feedback immediately
+def generate_presentation_feedback(grade, selections):
+    if not selections:
+        return f"The presentation is {grade.lower()}."
+    
+    selected_descriptions = [presentation_options[sel] for sel in selections]
+    
+    if len(selected_descriptions) == 1:
+        return f"The presentation is {grade.lower()} because {selected_descriptions[0].lower()}"
+    elif len(selected_descriptions) == 2:
+        return f"The presentation is {grade.lower()} because {selected_descriptions[0].lower()} and {selected_descriptions[1].lower()}"
+    else:
+        descriptions_text = ", ".join(selected_descriptions[:-1]) + f", and {selected_descriptions[-1]}"
+        return f"The presentation is {grade.lower()} because {descriptions_text.lower()}"
+
+presentation_feedback = generate_presentation_feedback(presentation_grade, presentation_selection)
+st.info("**Presentation Feedback:**")
+st.write(presentation_feedback)
+
+# Copy button for presentation feedback
+if st.button("📋 Copy Presentation Feedback", key="copy_pres_main"):
+    st.code(presentation_feedback, language=None)
 
 st.markdown("---")
 
@@ -216,10 +239,30 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         else:
             st.error(f"**{lab_name} Grade: {lab_grade}**")
         
-        if missing_criteria:
-            st.write(f"Missing/Insufficient items ({missing_count}):")
-            for criterion in missing_criteria:
-                st.write(f"• {criterion}")
+        # Generate and display lab feedback immediately
+        def generate_lab_feedback(lab_name, grade, lab_data):
+            if lab_data["excellent"] and not lab_data["missing_criteria"]:
+                return f"The description is {grade.lower()} because the descriptions are sufficient and steps are clear with detailed descriptions."
+            elif not lab_data["missing_criteria"]:
+                return f"The description is {grade.lower()}."
+            
+            missing_items = lab_data["missing_criteria"]
+            
+            if len(missing_items) == 1:
+                return f"The description is {grade.lower()} because {missing_items[0].lower()}."
+            elif len(missing_items) == 2:
+                return f"The description is {grade.lower()} because {missing_items[0].lower()} and {missing_items[1].lower()}."
+            else:
+                items_text = ", ".join(missing_items[:-1]) + f", and {missing_items[-1]}"
+                return f"The description is {grade.lower()} because {items_text.lower()}."
+        
+        lab_feedback_text = generate_lab_feedback(lab_name, lab_grade, lab_feedback[lab_name])
+        st.info(f"**{lab_name} Feedback:**")
+        st.write(lab_feedback_text)
+        
+        # Copy button for this lab's feedback
+        if st.button(f"📋 Copy {lab_name} Feedback", key=f"copy_{lab_name}"):
+            st.code(lab_feedback_text, language=None)
 
 st.markdown("---")
 
@@ -285,8 +328,7 @@ def generate_lab_feedback(lab_name, grade, lab_data):
         items_text = ", ".join(missing_items[:-1]) + f", and {missing_items[-1]}"
         return f"The description is {grade.lower()} because {items_text.lower()}."
 
-feedback_text = f"**Student:** {student_name} ({student_id})\n"
-feedback_text += f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+feedback_text = f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
 
 # Presentation feedback
 feedback_text += "**PRESENTATION EVALUATION:**\n"
@@ -319,23 +361,17 @@ with col2:
     if st.button("📋 Copy Description Feedback"):
         st.code(description_feedback_only, language=None)
 
-with col3:
+with col2:
     if st.button("📋 Copy Complete Feedback"):
         st.code(feedback_text, language=None)
 
 # Export options
 st.subheader("Export Options")
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("Copy Feedback to Clipboard"):
-        st.code(feedback_text, language=None)
+col1, col2 = st.columns(2)
 
 with col2:
     # Prepare data for CSV export
     csv_data = {
-        "Student_ID": [student_id],
-        "Student_Name": [student_name],
         "Presentation_Grade": [presentation_grade],
         "Lab1_Grade": [lab_grades.get("Lab 1", "")],
         "Lab2_Grade": [lab_grades.get("Lab 2", "")],
@@ -351,15 +387,13 @@ with col2:
     st.download_button(
         label="Download CSV",
         data=csv,
-        file_name=f"marking_results_{student_id}_{datetime.now().strftime('%Y%m%d')}.csv",
+        file_name=f"marking_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
         mime="text/csv"
     )
 
 with col3:
     # JSON export
     json_data = {
-        "student_id": student_id,
-        "student_name": student_name,
         "presentation": {
             "grade": presentation_grade,
             "selected_issues": presentation_selection
@@ -373,7 +407,7 @@ with col3:
     st.download_button(
         label="Download JSON",
         data=json.dumps(json_data, indent=2),
-        file_name=f"marking_results_{student_id}_{datetime.now().strftime('%Y%m%d')}.json",
+        file_name=f"marking_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
         mime="application/json"
     )
 
@@ -387,13 +421,13 @@ with st.expander("📖 Instructions"):
     st.markdown("""
     **How to use this marking tool:**
     
-    1. **Student Information**: Enter the student ID and name
-    2. **Presentation Evaluation**: Select all applicable presentation issues
-    3. **Description Evaluation**: For each lab:
-       - Select overall description quality
-       - Mark any missing/insufficient criteria
-    4. **Review Summary**: Check the generated grades and feedback
-    5. **Export**: Copy feedback or download results as CSV/JSON
+    1. **Presentation Evaluation**: Select all applicable presentation issues using checkboxes
+    2. **Description Evaluation**: For each lab:
+       - Check if descriptions are excellent (sufficient and clear)
+       - Mark any missing/insufficient criteria using checkboxes
+    3. **Review Summary**: Check the generated grades and feedback
+    4. **Copy Feedback**: Use the copy buttons to get specific feedback text
+    5. **Export**: Download results as CSV/JSON if needed
     
     **Grading Logic:**
     - **Presentation**: Excellent (no issues) → Medium (some issues) → Bad (major issues)
