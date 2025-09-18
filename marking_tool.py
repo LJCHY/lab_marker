@@ -17,16 +17,6 @@ st.markdown("---")
 if 'results' not in st.session_state:
     st.session_state.results = {}
 
-# Student Information
-st.header("Student Information")
-col1, col2 = st.columns(2)
-with col1:
-    student_id = st.text_input("Student ID")
-with col1:
-    student_name = st.text_input("Student Name")
-
-st.markdown("---")
-
 # PRESENTATION SECTION
 st.header("🎨 Presentation Evaluation")
 
