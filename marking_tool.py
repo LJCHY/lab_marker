@@ -17,6 +17,25 @@ st.markdown("---")
 if 'results' not in st.session_state:
     st.session_state.results = {}
 
+# MARKING SCHEME
+st.header("📊 Marking Scheme")
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Presentation Marks")
+    st.write("• **Excellent:** 1.5")
+    st.write("• **Medium:** 0.8")
+    st.write("• **Bad:** 0.3")
+
+with col2:
+    st.subheader("Lab Marks (Each)")
+    st.write("• **Excellent:** 1.7")
+    st.write("• **Good:** 1.3")
+    st.write("• **Average:** 0.9")
+    st.write("• **Bad:** 0.5")
+
+st.markdown("---")
+
 # PRESENTATION SECTION
 st.header("🎨 Presentation Evaluation")
 
@@ -32,6 +51,13 @@ presentation_options = {
     "bad_too_long": "The submitted file has more than 80 pages in total.",
     "bad_filename": "The submitted file name does NOT follow the format of studentid_firstname_labs1_5.pdf",
     "bad_structure": "The submitted file has a poorly/unstructured structure, e.g., no headings, blurring screenshots/pictures."
+}
+
+# Marking scheme for presentation
+presentation_marks = {
+    "Excellent": 1.5,
+    "Medium": 0.8,
+    "Bad": 0.3
 }
 
 st.write("Select all applicable presentation criteria:")
@@ -60,7 +86,17 @@ def calculate_presentation_grade(selections):
     return "No Valid Selection"
 
 presentation_grade = calculate_presentation_grade(presentation_selection)
-st.subheader(f"Presentation Grade: **{presentation_grade}**")
+presentation_mark = presentation_marks.get(presentation_grade, 0)
+
+# Display grade and mark with color coding
+if presentation_grade == "Excellent":
+    st.success(f"**Presentation Grade: {presentation_grade} ({presentation_mark} marks)**")
+elif presentation_grade == "Medium":
+    st.warning(f"**Presentation Grade: {presentation_grade} ({presentation_mark} marks)**")
+elif presentation_grade == "Bad":
+    st.error(f"**Presentation Grade: {presentation_grade} ({presentation_mark} marks)**")
+else:
+    st.info(f"**Presentation Grade: {presentation_grade} ({presentation_mark} marks)**")
 
 # Generate and display presentation feedback immediately
 def generate_presentation_feedback(grade, selections):
@@ -168,6 +204,14 @@ lab_criteria = {
     }
 }
 
+# Marking scheme for labs
+lab_marks = {
+    "Excellent": 1.7,
+    "Good": 1.3,
+    "Average": 0.9,
+    "Bad": 0.5
+}
+
 # Create tabs for each lab
 lab_tabs = st.tabs(["Lab 1", "Lab 2", "Lab 3", "Lab 4", "Lab 5"])
 
@@ -219,15 +263,17 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
             "missing_count": missing_count
         }
         
-        # Display grade with color coding
+        lab_mark = lab_marks.get(lab_grade, 0)
+        
+        # Display grade with color coding and marks
         if lab_grade == "Excellent":
-            st.success(f"**{lab_name} Grade: {lab_grade}**")
+            st.success(f"**{lab_name} Grade: {lab_grade} ({lab_mark} marks)**")
         elif lab_grade == "Good":
-            st.info(f"**{lab_name} Grade: {lab_grade}**")
+            st.info(f"**{lab_name} Grade: {lab_grade} ({lab_mark} marks)**")
         elif lab_grade == "Average":
-            st.warning(f"**{lab_name} Grade: {lab_grade}**")
+            st.warning(f"**{lab_name} Grade: {lab_grade} ({lab_mark} marks)**")
         else:
-            st.error(f"**{lab_name} Grade: {lab_grade}**")
+            st.error(f"**{lab_name} Grade: {lab_grade} ({lab_mark} marks)**")
         
         # Generate and display lab feedback immediately
         def generate_lab_feedback(lab_name, grade, lab_data):
@@ -259,13 +305,16 @@ st.markdown("---")
 # SUMMARY SECTION
 st.header("📊 Summary & Feedback")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.subheader("Overall Grades")
-    st.write(f"**Presentation:** {presentation_grade}")
+    st.subheader("Overall Grades & Marks")
+    st.write(f"**Presentation:** {presentation_grade} ({presentation_mark})")
     
+    total_marks = presentation_mark
     for lab, grade in lab_grades.items():
+        lab_mark = lab_marks.get(grade, 0)
+        total_marks += lab_mark
         color_map = {
             "Excellent": "🟢",
             "Good": "🔵", 
@@ -273,7 +322,10 @@ with col1:
             "Bad": "🔴"
         }
         icon = color_map.get(grade, "⚪")
-        st.write(f"**{lab}:** {icon} {grade}")
+        st.write(f"**{lab}:** {icon} {grade} ({lab_mark})")
+    
+    st.markdown("---")
+    st.write(f"**TOTAL MARKS: {total_marks}/10**")
 
 with col2:
     st.subheader("Quick Stats")
@@ -284,6 +336,13 @@ with col2:
         
         for grade, count in grade_counts.items():
             st.write(f"{grade}: {count} lab(s)")
+
+with col3:
+    st.subheader("Mark Breakdown")
+    st.write(f"Presentation: {presentation_mark}")
+    for lab, grade in lab_grades.items():
+        lab_mark = lab_marks.get(grade, 0)
+        st.write(f"{lab}: {lab_mark}")
 
 # Generate detailed feedback
 st.subheader("Generated Feedback")
@@ -320,24 +379,32 @@ def generate_lab_feedback(lab_name, grade, lab_data):
 
 feedback_text = f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
 
+# Add total marks at the top
+total_marks = presentation_mark
+for lab, grade in lab_grades.items():
+    total_marks += lab_marks.get(grade, 0)
+
+feedback_text += f"**TOTAL MARKS: {total_marks}/10**\n\n"
+
 # Presentation feedback
 feedback_text += "**PRESENTATION EVALUATION:**\n"
 presentation_feedback = generate_presentation_feedback(presentation_grade, presentation_selection)
-feedback_text += presentation_feedback + "\n\n"
+feedback_text += f"{presentation_feedback} ({presentation_mark} marks)\n\n"
 
 # Lab feedback
 feedback_text += "**DESCRIPTION EVALUATION:**\n"
 for lab_name, grade in lab_grades.items():
     lab_data = lab_feedback[lab_name]
     lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
-    feedback_text += f"\n{lab_name}: {lab_feedback_text}\n"
+    lab_mark = lab_marks.get(grade, 0)
+    feedback_text += f"\n{lab_name}: {lab_feedback_text} ({lab_mark} marks)\n"
 
 st.text_area("Detailed Feedback", feedback_text, height=300)
 
 # Add individual copy buttons for each section
 col1, col2, col3 = st.columns(3)
 with col1:
-    presentation_feedback_only = generate_presentation_feedback(presentation_grade, presentation_selection)
+    presentation_feedback_only = f"{generate_presentation_feedback(presentation_grade, presentation_selection)} ({presentation_mark} marks)"
     if st.button("📋 Copy Presentation Feedback"):
         st.code(presentation_feedback_only, language=None)
 
@@ -346,12 +413,13 @@ with col2:
     for lab_name, grade in lab_grades.items():
         lab_data = lab_feedback[lab_name]
         lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
-        description_feedback_only += f"{lab_name}: {lab_feedback_text}\n"
+        lab_mark = lab_marks.get(grade, 0)
+        description_feedback_only += f"{lab_name}: {lab_feedback_text} ({lab_mark} marks)\n"
     
     if st.button("📋 Copy Description Feedback"):
         st.code(description_feedback_only, language=None)
 
-with col2:
+with col3:
     if st.button("📋 Copy Complete Feedback"):
         st.code(feedback_text, language=None)
 
@@ -359,15 +427,22 @@ with col2:
 st.subheader("Export Options")
 col1, col2 = st.columns(2)
 
-with col2:
+with col1:
     # Prepare data for CSV export
     csv_data = {
         "Presentation_Grade": [presentation_grade],
+        "Presentation_Mark": [presentation_mark],
         "Lab1_Grade": [lab_grades.get("Lab 1", "")],
+        "Lab1_Mark": [lab_marks.get(lab_grades.get("Lab 1", ""), 0)],
         "Lab2_Grade": [lab_grades.get("Lab 2", "")],
+        "Lab2_Mark": [lab_marks.get(lab_grades.get("Lab 2", ""), 0)],
         "Lab3_Grade": [lab_grades.get("Lab 3", "")],
+        "Lab3_Mark": [lab_marks.get(lab_grades.get("Lab 3", ""), 0)],
         "Lab4_Grade": [lab_grades.get("Lab 4", "")],
+        "Lab4_Mark": [lab_marks.get(lab_grades.get("Lab 4", ""), 0)],
         "Lab5_Grade": [lab_grades.get("Lab 5", "")],
+        "Lab5_Mark": [lab_marks.get(lab_grades.get("Lab 5", ""), 0)],
+        "Total_Marks": [total_marks],
         "Evaluation_Date": [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     }
     
@@ -381,15 +456,19 @@ with col2:
         mime="text/csv"
     )
 
-with col3:
+with col2:
     # JSON export
     json_data = {
         "presentation": {
             "grade": presentation_grade,
+            "mark": presentation_mark,
             "selected_issues": presentation_selection
         },
         "labs": lab_feedback,
         "lab_grades": lab_grades,
+        "lab_marks": {lab: lab_marks.get(grade, 0) for lab, grade in lab_grades.items()},
+        "total_marks": total_marks,
+        "max_marks": 10,
         "evaluation_date": datetime.now().isoformat(),
         "feedback": feedback_text
     }
@@ -415,9 +494,14 @@ with st.expander("📖 Instructions"):
     2. **Description Evaluation**: For each lab:
        - Check if descriptions are excellent (sufficient and clear)
        - Mark any missing/insufficient criteria using checkboxes
-    3. **Review Summary**: Check the generated grades and feedback
+    3. **Review Summary**: Check the generated grades, marks, and total score
     4. **Copy Feedback**: Use the copy buttons to get specific feedback text
     5. **Export**: Download results as CSV/JSON if needed
+    
+    **Marking Scheme:**
+    - **Presentation**: Excellent (1.5) → Medium (0.8) → Bad (0.3)
+    - **Labs**: Excellent (1.7) → Good (1.3) → Average (0.9) → Bad (0.5)
+    - **Total**: 10 marks (1.5 + 5×1.7)
     
     **Grading Logic:**
     - **Presentation**: Excellent (no issues) → Medium (some issues) → Bad (major issues)
