@@ -140,13 +140,13 @@ lab_criteria = {
     },
     "Lab 2": {
         "bad_criteria": [
-            "The explanation of the commands used to create an EC2 instance using AWS CLI is a little brief",
-            "The explanation of the commands used to create an EC2 instance using Python Boto3 is a little brief",
+            "The explanation of the commands used to create an ec2 instance using AWS CLI is too short",
+            "The code to create an ec2 instance has little explanation",
             "The code to create an EC2 instance is missing",
             "The instance name does NOT start with a student number",
             "The instance type is not t3.micro",
             "The code to Build and run an httpd container has little explanation",
-            "The explanation of the Docker commands is a little brief",
+            "The explanation of the docker commands is too short",
             "Evidence of getting 'Hello World!' is missing",
             "Evidence of listing the created instance via the console is missing",
             "Explanations of manual instance termination are missing"
