@@ -140,13 +140,13 @@ lab_criteria = {
     },
     "Lab 2": {
         "bad_criteria": [
-            "Explanations of used commands in creating an EC2 instance using awscli are missing",
-            "Explanations of python code in creating an EC2 instance are missing",
+            "Explanations of used commands in creating an EC2 instance using awscli are little",
+            "Explanations of python code in creating an EC2 instance are little",
             "The code to create an EC2 instance is missing",
             "The instance name does NOT start with a student number",
             "The instance type is not t3.micro",
             "The code to Build and run an httpd container has little explanation",
-            "Explanations of used commands about Docker are missing",
+            "Explanations of used commands about Docker are little",
             "Evidence of getting 'Hello World!' is missing",
             "Evidence of listing the created instance via the console is missing",
             "Explanations of manual instance termination are missing"
