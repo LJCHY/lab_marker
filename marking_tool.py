@@ -40,6 +40,7 @@ st.markdown("---")
 st.header("🎨 Presentation Evaluation")
 
 presentation_options = {
+    "excellent": "The overall presentation is excellent/perfect.",
     "medium_signposts": "Some signposts are not clear, such as multi-level headings, indents, dot points, bolding, etc.",
     "medium_font": "The use of font (spacing, margins, etc.) is not consistent across labs.",
     "medium_grammar": "Many spelling and grammar mistakes.",
@@ -325,12 +326,6 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
     with tab:
         st.subheader(f"{lab_name} - Description Evaluation")
         
-        # Overall description quality - use checkbox instead of radio
-        desc_excellent = st.checkbox(
-            "The descriptions are sufficient and steps are clear with detailed descriptions.",
-            key=f"{lab_name}_desc_excellent"
-        )
-        
         # Missing criteria selection - use individual checkboxes
         st.write(f"Select missing/insufficient criteria for {lab_name}:")
         missing_criteria = []
@@ -339,8 +334,8 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
                 missing_criteria.append(criterion)
         
         # Calculate grade for this lab based on the specific thresholds
-        def calculate_lab_grade(desc_excellent, missing_count, bad_threshold, lab_name):
-            if desc_excellent and missing_count == 0:
+        def calculate_lab_grade(missing_count, bad_threshold, lab_name):
+            if missing_count == 0:
                 return "Excellent"
             elif missing_count >= bad_threshold:
                 return "Bad"
@@ -395,7 +390,6 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         
         missing_count = len(missing_criteria)
         lab_grade = calculate_lab_grade(
-            desc_excellent, 
             missing_count, 
             lab_criteria[lab_name]["bad_threshold"],
             lab_name
@@ -403,7 +397,6 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         
         lab_grades[lab_name] = lab_grade
         lab_feedback[lab_name] = {
-            "excellent": desc_excellent,
             "missing_criteria": missing_criteria,
             "missing_count": missing_count
         }
@@ -422,9 +415,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
         
         # Generate and display lab feedback immediately
         def generate_lab_feedback(lab_name, grade, lab_data):
-            if lab_data["excellent"] and not lab_data["missing_criteria"]:
-                return f"The description is {grade.lower()} because the descriptions are sufficient and steps are clear with detailed descriptions."
-            elif not lab_data["missing_criteria"]:
+            if not lab_data["missing_criteria"]:
                 return f"The description is {grade.lower()}."
             
             missing_items = lab_data["missing_criteria"]
@@ -509,9 +500,7 @@ def generate_presentation_feedback(grade, selections):
         return f"The presentation is {grade.lower()} because {descriptions_text.lower()}"
 
 def generate_lab_feedback(lab_name, grade, lab_data):
-    if lab_data["excellent"] and not lab_data["missing_criteria"]:
-        return f"The description is {grade.lower()} because the descriptions are sufficient and steps are clear with detailed descriptions."
-    elif not lab_data["missing_criteria"]:
+    if not lab_data["missing_criteria"]:
         return f"The description is {grade.lower()}."
     
     missing_items = lab_data["missing_criteria"]
