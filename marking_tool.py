@@ -47,7 +47,7 @@ presentation_options = {
     "medium_screenshots": "Some screenshots/pictures are not clear.",
     "medium_formatting": "Some code, commands and/or variables are not well formatted to distinguish themselves from texts.",
     "bad_not_pdf": "The submitted file is NOT a PDF.",
-    "bad_no_template": "The submitted file didn't follow(or use) the provided markdown file as its template (e.g. the cover sheet should be a separate page).",
+    "bad_no_template": "The submitted file didn't use the provided markdown file as its template.",
     "bad_too_long": "The submitted file has more than 80 pages in total.",
     "bad_filename": "The submitted file name does NOT follow the format of studentid_firstname_labs1_5.pdf",
     "bad_structure": "The submitted file has a poorly/unstructured structure, e.g., no headings, blurring screenshots/pictures."
