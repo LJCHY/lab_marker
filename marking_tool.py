@@ -40,7 +40,6 @@ st.markdown("---")
 st.header("🎨 Presentation Evaluation")
 
 presentation_options = {
-    "excellent": "The overall presentation is excellent/perfect.",
     "medium_signposts": "Some signposts are not clear, such as multi-level headings, indents, dot points, bolding, etc.",
     "medium_font": "The use of font (spacing, margins, etc.) is not consistent across labs.",
     "medium_grammar": "Many spelling and grammar mistakes.",
