@@ -47,7 +47,7 @@ presentation_options = {
     "medium_screenshots": "Some screenshots/pictures are not clear.",
     "medium_formatting": "Some code, commands and/or variables are not well formatted to distinguish themselves from texts.",
     "bad_not_pdf": "The submitted file is NOT a PDF.",
-    "bad_no_template": "The submitted file didn't use the provided markdown file as its template.",
+    "bad_no_template": "The submitted file didn't follow(or use) the provided markdown file as its template (e.g. the cover sheet should be a separate page).",
     "bad_too_long": "The submitted file has more than 80 pages in total.",
     "bad_filename": "The submitted file name does NOT follow the format of studentid_firstname_labs1_5.pdf",
     "bad_structure": "The submitted file has a poorly/unstructured structure, e.g., no headings, blurring screenshots/pictures."
@@ -201,19 +201,123 @@ lab_criteria = {
             "Explanations of manual instance termination are missing"
         ],
         "bad_threshold": 7
+    },
+    "Lab 6": {
+        "bad_criteria": [
+            "No screenshot/description of creating an EC2 (NOTE: students can use script or console)",
+            "The EC2 instance type is not t3.micro",
+            "No screenshot/description of creating a directory with a path, and cd into the directory",
+            "The explanations of commands in installing python3 virtual environment packages are missing",
+            "The explanations of commands in setting a python3 virtual environment are missing",
+            "The explanations of commands in activating a python3 virtual environment are missing",
+            "No description of the file contents of /etc/nginx/sites-enabled/default",
+            "No screenshot/description of restarting nginx",
+            "No screenshot of accessing the instance's IP address after restarting the web server",
+            "No description of polls/views.py or /urls.py or lab/urls.py edited to set up django",
+            "No screenshot of accessing the specific URL after restarting the web server",
+            "No screenshot/description of creating an application load balancer (NOTE: students can use script or console)",
+            "No screenshot/description of health check (NOTE: Django server showing requests or AWS console showing healthy status is sufficient)",
+            "No screenshot/description of accessing the specific URL after health check",
+            "No screenshot/description of creating an AWS DynamoDB table (NOTE: students can use script or console)",
+            "No explanation of the given TEMPLATES section",
+            "No explanation of the given files.html",
+            "No explanation of the given views.py",
+            "No screenshot/description of running a Django application",
+            "No screenshot of accessing the web page",
+            "No screenshot/description of deleting the instance",
+            "No screenshot/description of deleting the load balancer",
+            "No screenshot/description of deleting the AWS DynamoDB table"
+        ],
+        "bad_threshold": 17
+    },
+    "Lab 7": {
+        "bad_criteria": [
+            "No screenshot/description of creating an EC2 instance (NOTE: students can use script or console)",
+            "The EC2 instance type is not t3.micro",
+            "No screenshot/description of installing fabric",
+            "No explanation of the config file",
+            "No explanation of the fabric code that connects with the instance",
+            "In fabric for automation, no description of code in installing/setting/activating the Python 3 virtual environment",
+            "In fabric for automation, no description of code in installing/configuring/restarting nginx",
+            "In fabric for automation, no description of code in creating and setting up django inside the created EC2 instance",
+            "No screenshot/description of the url access in the end",
+            "No screenshot/description of deleting the instance"
+        ],
+        "bad_threshold": 7
+    },
+    "Lab 8": {
+        "bad_criteria": [
+            "No explanation of the Dockerfile",
+            "No screenshot/description of testing the image",
+            "No explanation of the script that creates an ECR repository",
+            "No explanation of the script that gets the Docker token",
+            "No screenshot/description of explaining or running the output command",
+            "No explanation of the tagging or pushing commands",
+            "No screenshot/description of pushing the local Docker image onto ECR successfully",
+            "No explanation of the script that creates a task definition for an ECS task",
+            "No explanation of the script that creates an ECS service",
+            "No screenshot/description of creating the ECS service successfully",
+            "No explanation of the command that gets a public IP address",
+            "No explanation of the three installed libraries",
+            "No explanation of code in preparing a SageMaker session",
+            "No explanation of commands used in downloading or unzipping the dataset",
+            "No or incorrect answer to the first question (Answer: job, marital, education, default, housing, loan, contact, month, day_of_week, poutcome)",
+            "No or incorrect answer to the second question (Answer: age, duration, campaign, pdays, previous, emp.var.rate, cons.price.idx, cons.conf.idx, euribor3m, nr.employed)",
+            "The explanation of code in reading the dataset into Pandas data frame is missing",
+            "The explanation of code in processing the data is missing",
+            "The explanation of code in removing the economic features and duration is missing",
+            "The explanation of code in splitting the data is missing",
+            "The explanation of code in copying the file to the S3 bucket is missing",
+            "The explanation of code in setting up hyperparameter tuning is missing",
+            "The explanation of code in specifying the XGBoost algorithm is missing",
+            "No screenshot/description of launching hyperparameter tuning job",
+            "No screenshot of the success of completing the tuning job",
+            "No screenshot/description of deleting the S3 bucket",
+            "No screenshot/description of deleting the ECR repository",
+            "No screenshot/description of deleting the ECS service"
+        ],
+        "bad_threshold": 21
+    },
+    "Lab 9": {
+        "bad_criteria": [
+            "The code in detecting 4 different languages from text is missing",
+            "The explanation of the code in detecting 4 different languages from text is missing",
+            "The code in analyzing sentiment is missing",
+            "The explanation of the code in analyzing sentiment is missing",
+            "The code in detecting entities is missing",
+            "The explanation of the code in detecting entities is missing",
+            "No or incorrect answer to the question of describing what entities are",
+            "The code in detecting keyphrases is missing",
+            "The explanation of the code in detecting keyphrases is missing",
+            "No or incorrect answer to the question of describing what keyphrases are",
+            "The code in detecting syntaxes is missing",
+            "The explanation of the code in detecting syntaxes is missing",
+            "No or incorrect answer to the question of describing what syntaxes are",
+            "The code of creating a S3 bucket and adding 4 images to the S3 bucket is missing",
+            "The explanation of the code in label recognition is missing",
+            "The explanation of the code in image moderation is missing",
+            "The explanation of the code in facial analysis is missing",
+            "The explanation of the code in text extraction is missing"
+        ],
+        "bad_threshold": 13
     }
 }
 
 # Marking scheme for labs
 lab_marks = {
-    "Excellent": 1.7,
-    "Good": 1.3,
-    "Average": 0.9,
-    "Bad": 0.5
+    "Lab 1": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 2": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 3": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 4": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 5": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 6": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 7": {"Excellent": 1.7, "Good": 1.3, "Average": 0.9, "Bad": 0.5},
+    "Lab 8": {"Excellent": 2.55, "Good": 1.95, "Average": 1.35, "Bad": 0.75},
+    "Lab 9": {"Excellent": 2.55, "Good": 1.95, "Average": 1.35, "Bad": 0.75}
 }
 
 # Create tabs for each lab
-lab_tabs = st.tabs(["Lab 1", "Lab 2", "Lab 3", "Lab 4", "Lab 5"])
+lab_tabs = st.tabs(["Lab 1", "Lab 2", "Lab 3", "Lab 4", "Lab 5", "Lab 6", "Lab 7", "Lab 8", "Lab 9"])
 
 lab_grades = {}
 lab_feedback = {}
@@ -235,18 +339,60 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
             if st.checkbox(criterion, key=f"{lab_name}_{criterion}"):
                 missing_criteria.append(criterion)
         
-        # Calculate grade for this lab
+        # Calculate grade for this lab based on the specific thresholds
         def calculate_lab_grade(desc_excellent, missing_count, bad_threshold, lab_name):
             if desc_excellent and missing_count == 0:
                 return "Excellent"
             elif missing_count >= bad_threshold:
                 return "Bad"
-            elif lab_name in ["Lab 2", "Lab 3", "Lab 4", "Lab 5"] and missing_count <= 4:
-                return "Good"
-            elif lab_name == "Lab 1" and missing_count <= 2:
-                return "Good"
             else:
-                return "Average"
+                # Lab-specific grading logic
+                if lab_name == "Lab 1":
+                    if missing_count <= 2:
+                        return "Good"
+                    else:
+                        return "Average"
+                elif lab_name in ["Lab 2", "Lab 3", "Lab 4", "Lab 5"]:
+                    if missing_count <= 4:
+                        return "Good"
+                    else:
+                        return "Average"
+                elif lab_name == "Lab 6":
+                    if missing_count <= 2:
+                        return "Excellent"
+                    elif missing_count <= 10:
+                        return "Good"
+                    elif missing_count <= 16:
+                        return "Average"
+                    else:
+                        return "Bad"
+                elif lab_name == "Lab 7":
+                    if missing_count <= 1:
+                        return "Excellent"
+                    elif missing_count <= 3:
+                        return "Good"
+                    elif missing_count <= 6:
+                        return "Average"
+                    else:
+                        return "Bad"
+                elif lab_name == "Lab 8":
+                    if missing_count <= 2:
+                        return "Excellent"
+                    elif missing_count <= 10:
+                        return "Good"
+                    elif missing_count <= 20:
+                        return "Average"
+                    else:
+                        return "Bad"
+                elif lab_name == "Lab 9":
+                    if missing_count <= 2:
+                        return "Excellent"
+                    elif missing_count <= 8:
+                        return "Good"
+                    elif missing_count <= 12:
+                        return "Average"
+                    else:
+                        return "Bad"
         
         missing_count = len(missing_criteria)
         lab_grade = calculate_lab_grade(
@@ -263,7 +409,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
             "missing_count": missing_count
         }
         
-        lab_mark = lab_marks.get(lab_grade, 0)
+        lab_mark = lab_marks.get(lab_name, {}).get(lab_grade, 0) if isinstance(lab_marks.get(lab_name, {}), dict) else lab_marks.get(lab_grade, 0)
         
         # Display grade with color coding and marks
         if lab_grade == "Excellent":
@@ -313,7 +459,7 @@ with col1:
     
     total_marks = presentation_mark
     for lab, grade in lab_grades.items():
-        lab_mark = lab_marks.get(grade, 0)
+        lab_mark = lab_marks.get(lab, {}).get(grade, 0) if isinstance(lab_marks.get(lab, {}), dict) else lab_marks.get(grade, 0)
         total_marks += lab_mark
         color_map = {
             "Excellent": "🟢",
@@ -325,7 +471,9 @@ with col1:
         st.write(f"**{lab}:** {icon} {grade} ({lab_mark})")
     
     st.markdown("---")
-    st.write(f"**TOTAL MARKS: {total_marks}/10**")
+    # Update total to reflect different marks for labs 8-9
+    max_total = 1.5 + (7 * 1.7) + (2 * 2.55)  # 1.5 for presentation + 7 labs at 1.7 each + 2 labs at 2.55 each
+    st.write(f"**TOTAL MARKS: {total_marks}/{max_total}**")
 
 with col2:
     st.subheader("Quick Stats")
@@ -341,7 +489,7 @@ with col3:
     st.subheader("Mark Breakdown")
     st.write(f"Presentation: {presentation_mark}")
     for lab, grade in lab_grades.items():
-        lab_mark = lab_marks.get(grade, 0)
+        lab_mark = lab_marks.get(lab, {}).get(grade, 0) if isinstance(lab_marks.get(lab, {}), dict) else lab_marks.get(grade, 0)
         st.write(f"{lab}: {lab_mark}")
 
 # Generate detailed feedback
@@ -375,16 +523,18 @@ def generate_lab_feedback(lab_name, grade, lab_data):
         return f"The description is {grade.lower()} because {missing_items[0].lower()} and {missing_items[1].lower()}."
     else:
         items_text = ", ".join(missing_items[:-1]) + f", and {missing_items[-1]}"
-        return f"The description is {grade.lower()} because {items_text.lower()}."
+        return f"The description is {grade.lower()} because {items_text.lower()}"
 
 feedback_text = f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
 
 # Add total marks at the top
 total_marks = presentation_mark
 for lab, grade in lab_grades.items():
-    total_marks += lab_marks.get(grade, 0)
+    lab_mark = lab_marks.get(lab, {}).get(grade, 0) if isinstance(lab_marks.get(lab, {}), dict) else lab_marks.get(grade, 0)
+    total_marks += lab_mark
 
-feedback_text += f"**TOTAL MARKS: {total_marks}/10**\n\n"
+max_total = 1.5 + (7 * 1.7) + (2 * 2.55)  # 1.5 for presentation + 7 labs at 1.7 each + 2 labs at 2.55 each
+feedback_text += f"**TOTAL MARKS: {total_marks}/{max_total}**\n\n"
 
 # Presentation feedback
 feedback_text += "**PRESENTATION EVALUATION:**\n"
@@ -396,10 +546,10 @@ feedback_text += "**DESCRIPTION EVALUATION:**\n"
 for lab_name, grade in lab_grades.items():
     lab_data = lab_feedback[lab_name]
     lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
-    lab_mark = lab_marks.get(grade, 0)
+    lab_mark = lab_marks.get(lab_name, {}).get(grade, 0) if isinstance(lab_marks.get(lab_name, {}), dict) else lab_marks.get(grade, 0)
     feedback_text += f"\n{lab_name}: {lab_feedback_text} ({lab_mark} marks)\n"
 
-st.text_area("Detailed Feedback", feedback_text, height=300)
+st.text_area("Detailed Feedback", feedback_text, height=400)
 
 # Add individual copy buttons for each section
 col1, col2, col3 = st.columns(3)
@@ -413,7 +563,7 @@ with col2:
     for lab_name, grade in lab_grades.items():
         lab_data = lab_feedback[lab_name]
         lab_feedback_text = generate_lab_feedback(lab_name, grade, lab_data)
-        lab_mark = lab_marks.get(grade, 0)
+        lab_mark = lab_marks.get(lab_name, {}).get(grade, 0) if isinstance(lab_marks.get(lab_name, {}), dict) else lab_marks.get(grade, 0)
         description_feedback_only += f"{lab_name}: {lab_feedback_text} ({lab_mark} marks)\n"
     
     if st.button("📋 Copy Description Feedback"):
@@ -433,15 +583,23 @@ with col1:
         "Presentation_Grade": [presentation_grade],
         "Presentation_Mark": [presentation_mark],
         "Lab1_Grade": [lab_grades.get("Lab 1", "")],
-        "Lab1_Mark": [lab_marks.get(lab_grades.get("Lab 1", ""), 0)],
+        "Lab1_Mark": [lab_marks.get("Lab 1", {}).get(lab_grades.get("Lab 1", ""), 0)],
         "Lab2_Grade": [lab_grades.get("Lab 2", "")],
-        "Lab2_Mark": [lab_marks.get(lab_grades.get("Lab 2", ""), 0)],
+        "Lab2_Mark": [lab_marks.get("Lab 2", {}).get(lab_grades.get("Lab 2", ""), 0)],
         "Lab3_Grade": [lab_grades.get("Lab 3", "")],
-        "Lab3_Mark": [lab_marks.get(lab_grades.get("Lab 3", ""), 0)],
+        "Lab3_Mark": [lab_marks.get("Lab 3", {}).get(lab_grades.get("Lab 3", ""), 0)],
         "Lab4_Grade": [lab_grades.get("Lab 4", "")],
-        "Lab4_Mark": [lab_marks.get(lab_grades.get("Lab 4", ""), 0)],
+        "Lab4_Mark": [lab_marks.get("Lab 4", {}).get(lab_grades.get("Lab 4", ""), 0)],
         "Lab5_Grade": [lab_grades.get("Lab 5", "")],
-        "Lab5_Mark": [lab_marks.get(lab_grades.get("Lab 5", ""), 0)],
+        "Lab5_Mark": [lab_marks.get("Lab 5", {}).get(lab_grades.get("Lab 5", ""), 0)],
+        "Lab6_Grade": [lab_grades.get("Lab 6", "")],
+        "Lab6_Mark": [lab_marks.get("Lab 6", {}).get(lab_grades.get("Lab 6", ""), 0)],
+        "Lab7_Grade": [lab_grades.get("Lab 7", "")],
+        "Lab7_Mark": [lab_marks.get("Lab 7", {}).get(lab_grades.get("Lab 7", ""), 0)],
+        "Lab8_Grade": [lab_grades.get("Lab 8", "")],
+        "Lab8_Mark": [lab_marks.get("Lab 8", {}).get(lab_grades.get("Lab 8", ""), 0)],
+        "Lab9_Grade": [lab_grades.get("Lab 9", "")],
+        "Lab9_Mark": [lab_marks.get("Lab 9", {}).get(lab_grades.get("Lab 9", ""), 0)],
         "Total_Marks": [total_marks],
         "Evaluation_Date": [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     }
@@ -466,9 +624,9 @@ with col2:
         },
         "labs": lab_feedback,
         "lab_grades": lab_grades,
-        "lab_marks": {lab: lab_marks.get(grade, 0) for lab, grade in lab_grades.items()},
+        "lab_marks": {lab: lab_marks.get(lab, {}).get(grade, 0) for lab, grade in lab_grades.items()},
         "total_marks": total_marks,
-        "max_marks": 10,
+        "max_marks": max_total,
         "evaluation_date": datetime.now().isoformat(),
         "feedback": feedback_text
     }
@@ -483,11 +641,11 @@ with col2:
 # Reset button
 if st.button("🔄 Reset All Fields"):
     st.session_state.clear()
-    st.experimental_rerun()
+    st.rerun()
 
 # Instructions
 with st.expander("📖 Instructions"):
-    st.markdown("""
+    st.markdown(f"""
     **How to use this marking tool:**
     
     1. **Presentation Evaluation**: Select all applicable presentation issues using checkboxes
@@ -500,12 +658,17 @@ with st.expander("📖 Instructions"):
     
     **Marking Scheme:**
     - **Presentation**: Excellent (1.5) → Medium (0.8) → Bad (0.3)
-    - **Labs**: Excellent (1.7) → Good (1.3) → Average (0.9) → Bad (0.5)
-    - **Total**: 10 marks (1.5 + 5×1.7)
+    - **Labs 1-7**: Excellent (1.7) → Good (1.3) → Average (0.9) → Bad (0.5)
+    - **Labs 8-9**: Excellent (2.55) → Good (1.95) → Average (1.35) → Bad (0.75)
+    - **Total**: 18.5 marks (1.5 + 7×1.7 + 2×2.55)
     
     **Grading Logic:**
     - **Presentation**: Excellent (no issues) → Medium (some issues) → Bad (major issues)
-    - **Labs**: Excellent (perfect) → Good (≤4 issues for most labs, ≤2 for Lab 1) → Average → Bad (threshold varies by lab)
+    - **Labs 1-5**: Follow original thresholds
+    - **Lab 6**: Excellent (0-2 missing) → Good (3-10) → Average (11-16) → Bad (>16)
+    - **Lab 7**: Excellent (0-1 missing) → Good (2-3) → Average (4-6) → Bad (>6)
+    - **Lab 8**: Excellent (0-2 missing) → Good (3-10) → Average (11-20) → Bad (>20)
+    - **Lab 9**: Excellent (0-2 missing) → Good (3-8) → Average (9-12) → Bad (>12)
     
     **Time Estimates:**
     - Lab 1: ~1 min/submission
@@ -513,4 +676,8 @@ with st.expander("📖 Instructions"):
     - Lab 3: ~1.5 min/submission
     - Lab 4: ~1.5 min/submission
     - Lab 5: ~1.5 min/submission
+    - Lab 6: ~2 min/submission
+    - Lab 7: ~1.5 min/submission
+    - Lab 8: ~2 min/submission
+    - Lab 9: ~1.5 min/submission
     """)
