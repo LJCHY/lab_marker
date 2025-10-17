@@ -69,7 +69,7 @@ for key, description in presentation_options.items():
 # Calculate presentation grade
 def calculate_presentation_grade(selections):
     if not selections:
-        return "No Selection"
+        return "Excellent"
     
     bad_criteria = [k for k in selections if k.startswith("bad_")]
     if bad_criteria:
