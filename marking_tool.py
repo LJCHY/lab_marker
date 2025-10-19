@@ -223,7 +223,7 @@ lab_criteria = {
             "No explanation of the given files.html",
             "No explanation of the given views.py",
             "No screenshot/description of running a Django application",
-            "No screenshot of accessing the web page",
+            "No screenshot of accessing the web page (need to include the URL)",
             "No screenshot/description of deleting the instance",
             "No screenshot/description of deleting the load balancer",
             "No screenshot/description of deleting the AWS DynamoDB table"
@@ -234,9 +234,9 @@ lab_criteria = {
         "bad_criteria": [
             "No screenshot/description of creating an EC2 instance (NOTE: students can use script or console)",
             "The EC2 instance type is not t3.micro",
-            "No screenshot/description of installing fabric",
-            "No explanation of the config file",
-            "No explanation of the fabric code that connects with the instance",
+            "The screenshot/description of installing fabric is not sufficient",
+            "The explanation of the config file is not sufficient",
+            "The explanation of the fabric code that connects with the instance is not sufficient",
             "In fabric for automation, no description of code in installing/setting/activating the Python 3 virtual environment",
             "In fabric for automation, no description of code in installing/configuring/restarting nginx",
             "In fabric for automation, no description of code in creating and setting up django inside the created EC2 instance",
