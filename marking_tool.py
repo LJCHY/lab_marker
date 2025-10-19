@@ -352,7 +352,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
                     else:
                         return "Average"
                 elif lab_name == "Lab 6":
-                    if missing_count <= 2:
+                    if missing_count <= 0:
                         return "Excellent"
                     elif missing_count <= 10:
                         return "Good"
@@ -361,7 +361,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
                     else:
                         return "Bad"
                 elif lab_name == "Lab 7":
-                    if missing_count <= 1:
+                    if missing_count <= 0:
                         return "Excellent"
                     elif missing_count <= 3:
                         return "Good"
@@ -370,7 +370,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
                     else:
                         return "Bad"
                 elif lab_name == "Lab 8":
-                    if missing_count <= 2:
+                    if missing_count <= 0:
                         return "Excellent"
                     elif missing_count <= 10:
                         return "Good"
@@ -379,7 +379,7 @@ for i, (lab_name, tab) in enumerate(zip(lab_criteria.keys(), lab_tabs)):
                     else:
                         return "Bad"
                 elif lab_name == "Lab 9":
-                    if missing_count <= 2:
+                    if missing_count <= 0:
                         return "Excellent"
                     elif missing_count <= 8:
                         return "Good"
