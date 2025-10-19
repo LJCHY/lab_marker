@@ -234,8 +234,8 @@ lab_criteria = {
         "bad_criteria": [
             "No screenshot/description of creating an EC2 instance (NOTE: students can use script or console)",
             "The EC2 instance type is not t3.micro",
-            "The screenshot/description of installing fabric is not sufficient",
-            "The explanation of the config file is not sufficient",
+            "The screenshot/description of installing fabric is not sufficient, e.g, what does Hostname mean? What does User mean?",
+            "The explanation of the config file is not sufficient, e.g. what does Connection mean? What does c.run mean? What does uname-s mean?",
             "The explanation of the fabric code that connects with the instance is not sufficient",
             "In fabric for automation, no description of code in installing/setting/activating the Python 3 virtual environment",
             "In fabric for automation, no description of code in installing/configuring/restarting nginx",
